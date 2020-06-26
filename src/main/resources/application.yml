@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: spring-kafka-streams-poc
+  kafka:
+    bootstrapServers: localhost:9092
+  output:
+    ansi:
+      enabled: ALWAYS
+  cloud:
+    stream:
+      function:
+        definition: process;process2;processOrders;process3wordCount;wordCount2
+      bindings:
+        process-in-0:
+          destination: my-input-topic
+        process2-in-0:
+          destination: user-click
+        process2-in-1:
+          destination: regions-table
+        process2-out-0:
+          destination: regions-click
+        process3-in-0:
+          destination: user-click
+        process3-in-1:
+          destination: regions-table
+        processOrders-in-0:
+          destination: order-click
+        processOrders-in-1:
+          destination: customer-table
+        processOrders-in-2:
+          destination: product-table
+        processOrders-out-0:
+          destination: enriched-order
+        wordCount-in-0:
+          destination: words
+        wordCount-out-0:
+          destination: counts
+        wordCount2-in-0:
+          destination: words
+        wordCount2-out-0:
+          destination: output1
+        wordCount2-out-1:
+          destination: output2
+        wordCount2-out-2:
+          destination: output3
+      kafka:
+        streams:
+          binder:
+            functions:
+              process:
+                applicationId: default-processor
+              process2:
+                applicationId: region-clicks-processor
+              process3:
+                applicationId: region-clicks-processor3
+              processOrders:
+                applicationId: orders-processor
+              wordCount:
+                applicationId: word-count-processor
+              wordCount2:
+                applicationId: word-count2-processor
